@@ -1,1 +1,1 @@
-and in additon we have THIS
+and in additon we have THIS this will be appended to the whatever is in the notes.txt file
