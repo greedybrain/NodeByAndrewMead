@@ -1,0 +1,19 @@
+{
+	"name": "task-app",
+	"version": "1.0.0",
+	"description": "",
+	"main": "mongodb.js",
+	"scripts": {
+		"start": "node mongodb.js -e js,hbs",
+		"dev": "nodemon mongodb.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"mongodb": "^3.6.3"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
+}
