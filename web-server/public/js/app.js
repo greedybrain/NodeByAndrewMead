@@ -14,6 +14,7 @@ const handleError = data => errMessage.textContent = data.error
 const handleSuccess = data => succMessage.textContent = `It is ${ data.temperature } in ${ data.location }, but it feels like ${ data.feelslike }`
 
 const getForecastInfo = async location => {
+        //
         const url = `/weather?address=${ location }`
         try {
                 const res = await fetch(url)
