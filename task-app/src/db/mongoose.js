@@ -10,50 +10,53 @@ mongoose
 	.then(() => console.log("Connected to database"))
 	.catch((err) => console.log(error));
 
-const Task = mongoose.model("Task", {
-	description: {
-		type: String,
-		required: true,
-	},
-	completed: {
-		type: Boolean,
-		required: true,
-	},
-});
-
-const createTask = async () => {
-	const task = new Task({
-		description: "Take out the garbage",
-		completed: false,
-	});
-	try {
-		console.log(task);
-		await task.save();
-	} catch (error) {
-		console.log("Error is > ", error);
-	}
-};
-
-// const User = mongoose.model("User", {
-// 	name: {
+// const Task = mongoose.model("Task", {
+// 	description: {
 // 		type: String,
+// 		required: true,
 // 	},
-// 	age: {
-// 		type: Number,
+// 	completed: {
+// 		type: Boolean,
+// 		required: true,
 // 	},
 // });
 
-// const createUser = async () => {
-// 	const user = new User({
-// 		name: "Willis",
-// 		age: "Mike",
+// const createTask = async () => {
+// 	const task = new Task({
+// 		description: "Take out the garbage",
+// 		completed: false,
 // 	});
 // 	try {
-// 		await user.save();
-// 		console.log(user);
+// 		console.log(task);
+// 		await task.save();
 // 	} catch (error) {
-// 		console.log("Error", error);
+// 		console.log("Error is > ", error);
 // 	}
 // };
+
+const User = mongoose.model("User", {
+	name: {
+		type: String,
+	},
+	age: {
+		type: Number,
+		validate(value) {
+			if (value < 0) throw Error("Please enter a valid age");
+		},
+	},
+});
+
+const createUser = async () => {
+	const user = new User({
+		name: "Willis",
+		age: "Mike",
+	});
+	try {
+		await user.save();
+		console.log(user);
+	} catch (error) {
+		console.log("Error", error);
+	}
+};
 
 // createUser();
