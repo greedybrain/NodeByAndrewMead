@@ -6,7 +6,6 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
-    "moment": "^2.29.1",
     "postman-request": "^2.88.1-postman.27"
   },
   "devDependencies": {},
