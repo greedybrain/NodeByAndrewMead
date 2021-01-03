@@ -11,6 +11,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"dotenv": "^8.2.0",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.11.9",
 		"validator": "^13.5.2"

@@ -1,8 +1,10 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const connectionURL =
-	"mongodb+srv://wycbw91:360ec06a3f644c8de5c83e7ac0ccdd63@node-go.skajs.mongodb.net/task-app-api?retryWrites=true&w=majority";
+const USER = process.env.MONGO_URI_USER;
+const SECRET = process.env.MONGO_URI_SECRET;
+const connectionURL = `mongodb+srv://${USER}:${SECRET}@node-go.skajs.mongodb.net/task-app-api?retryWrites=true&w=majority`;
 mongoose
 	.connect(connectionURL, {
 		useNewUrlParser: true,
