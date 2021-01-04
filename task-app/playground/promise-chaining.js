@@ -5,10 +5,12 @@ const removeTaskThenCountIncompleteTasks = async (id) => {
 	try {
 		const task = await Task.findByIdAndDelete(id);
 		const incompleteTasks = await Task.countDocuments({ completed: false });
-		console.log(task, incompleteTasks);
+		return [task, incompleteTasks];
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-removeTaskThenCountIncompleteTasks("5ff24a5185caff19fe96c819");
+removeTaskThenCountIncompleteTasks("5ff281a4eb6af3336c3f747a")
+	.then((result) => console.log(result))
+	.catch((error) => console.log(error))
