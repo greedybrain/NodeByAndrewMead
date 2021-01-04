@@ -13,6 +13,7 @@ const startDB = async () => {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,
+			useFindAndModify: false
 		});
 		console.log("Connected to database");
 	} catch (error) {
@@ -20,29 +21,3 @@ const startDB = async () => {
 	}
 };
 startDB();
-
-// const Task = mongoose.model("Task", {
-// 	description: {
-// 		type: String,
-// 		required: true,
-// 		trim: true,
-// 	},
-// 	completed: {
-// 		type: Boolean,
-// 		default: false,
-// 	},
-// });
-
-// const createTask = async () => {
-// 	const task = new Task({
-// 		description: "      Take out the garbage     ",
-// 		completed: false,
-// 	});
-// 	try {
-// 		await task.save();
-// 	} catch (error) {
-// 		console.log("Error is > ", error);
-// 	}
-// };
-
-// createTask();
