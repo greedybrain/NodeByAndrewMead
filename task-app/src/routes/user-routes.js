@@ -8,7 +8,7 @@ const {
 	getUser,
 	createUser,
 	updateUser,
-} = require("../helpers/user-helpers");
+} = require("../helpers/user-helper");
 
 //! Routes definition
 router.get("/", getUsers);
