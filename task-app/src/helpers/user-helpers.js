@@ -31,8 +31,31 @@ const createUser = async (req, res) => {
 	}
 };
 
+const updateUser = async (req, res) => {
+	const updates = Object.keys(req.body);
+	const allowedUpdates = ["name", "email", "password", "age"];
+	const isValidOperation = updates.every((update) =>
+		allowedUpdates.includes(update)
+	);
+
+	if (!isValidOperation) return res.status(400).send("Invalid Updates");
+
+	try {
+		let user = await User.findByIdAndUpdate(req.params.id, req.body, {
+			new: true,
+			runValidators: true,
+		});
+		if (!user)
+			return res.status(404).send("Unable to find a user with that ID");
+		return res.status(200).send(user);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+};
+
 module.exports = {
 	getUsers,
 	getUser,
 	createUser,
+	updateUser,
 };
