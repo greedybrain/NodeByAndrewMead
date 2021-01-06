@@ -46,7 +46,18 @@ const updateUser = async (req, res) => {
 			runValidators: true,
 		});
 		if (!user)
-			return res.status(404).send("Unable to find a user with that ID");
+			return res.status(404).send("Unable to update a user with that ID");
+		return res.status(200).send(user);
+	} catch (error) {
+		res.status(400).send(error);
+	}
+};
+
+const deleteUser = async (req, res) => {
+	try {
+		const user = await User.findByIdAndDelete(req.params.id);
+		if (!user)
+			return res.status(404).send("Unable to delete a user with that ID");
 		return res.status(200).send(user);
 	} catch (error) {
 		res.status(400).send(error);
@@ -58,4 +69,5 @@ module.exports = {
 	getUser,
 	createUser,
 	updateUser,
+	deleteUser,
 };
