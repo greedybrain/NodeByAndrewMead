@@ -21,6 +21,17 @@ const getUser = async (req, res) => {
 	}
 };
 
+const createUser = async (req, res) => {
+	let user = new User(req.body);
+	try {
+		user = await user.save();
+		const token = await user.generateAuthToken()
+		return res.status(201).send({ user, token });
+	} catch (error) {
+		res.status(500).send(error);
+	}
+};
+
 const loginUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(
@@ -34,15 +45,6 @@ const loginUser = async (req, res) => {
 	}
 };
 
-const createUser = async (req, res) => {
-	try {
-		let user = new User(req.body);
-		user = await user.save();
-		return res.status(201).send(user);
-	} catch (error) {
-		res.status(500).send(error);
-	}
-};
 
 const updateUser = async (req, res) => {
 	const updates = Object.keys(req.body);

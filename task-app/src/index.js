@@ -4,9 +4,10 @@ const express = require("express");
 const app = express();
 
 //! Custom Modules
-// startup / set configurations
-require("dotenv").config();
-require("./db/db-setup");
+require("dotenv").config(); // startup / set configurations
+require("./db/db-setup"); // startup / set configurations
+const userRouter = require("./routers/user-routes");
+const taskRouter = require("./routers/task-routes");
 
 //! Custom vars
 const chalk = require("chalk");
@@ -14,13 +15,17 @@ const error = chalk.bold.redBright.inverse;
 const success = chalk.bold.greenBright.inverse;
 
 //! Middleware definition
+// app.use((req, res, next) => {
+// 	if (req.method === "GET") return res.send("GET requests are disabled");
+// 	next();
+// });
+
+app.use((req, res, next) => res.status(503).send("We are currently performing site maintenance. Please try back soon"))
+
 // parse incoming JSON to object
 app.use(express.json());
 
 //! Mounting routers
-const userRouter = require("./routers/user-routes");
-const taskRouter = require("./routers/task-routes");
-// routers
 app.use("/users", userRouter);
 app.use("/tasks", taskRouter);
 

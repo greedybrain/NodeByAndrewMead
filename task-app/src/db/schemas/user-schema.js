@@ -2,6 +2,9 @@
 const { Schema } = require("mongoose");
 const validator = require("validator");
 
+//! Custom Modules
+const TokenSchema = require("./token-schema");
+
 //! Schema definition
 const UserSchema = new Schema({
 	name: {
@@ -38,7 +41,7 @@ const UserSchema = new Schema({
 			if (value < 0) throw Error("Please enter a valid age greater than 0");
 		},
 	},
-	tokens: [{ token: { type: String, required: true } }],
+	tokens: [TokenSchema],
 });
 
 //! Exporting
