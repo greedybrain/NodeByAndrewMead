@@ -42,12 +42,12 @@ const updateTask = async (req, res, next) => {
 	if (!isValidOperation) return res.status(400).send("Invalid Updates");
 
 	try {
-		let task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-			new: true,
-			runValidators: true,
-		});
+		let task = await Task.findById(req.params.id);
 		if (!task)
 			return res.status(404).send("Unable to update a task with that ID");
+
+		updates.forEach((update) => (task[update] = req.body[update]));
+		task = await task.save();
 		return res.status(200).send(task);
 	} catch (error) {
 		res.status(400).send(error);
@@ -56,18 +56,19 @@ const updateTask = async (req, res, next) => {
 
 const deleteTask = async (req, res, next) => {
 	try {
-		const task = await Task.findByIdAndDelete(req.params.id)
-		if (!task) return res.status(404).send("Unable to delete a task with the ID")
-		return res.status(200).send(task)
+		const task = await Task.findByIdAndDelete(req.params.id);
+		if (!task)
+			return res.status(404).send("Unable to delete a task with the ID");
+		return res.status(200).send(task);
 	} catch (error) {
-		res.status(400).send(error)
+		res.status(400).send(error);
 	}
-}
+};
 
 module.exports = {
 	getTasks,
 	getTask,
 	createTask,
 	updateTask,
-	deleteTask
+	deleteTask,
 };

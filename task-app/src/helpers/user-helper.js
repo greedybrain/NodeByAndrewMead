@@ -21,6 +21,19 @@ const getUser = async (req, res) => {
 	}
 };
 
+const loginUser = async (req, res) => {
+	try {
+		const user = await User.findByCredentials(
+			req.body.email,
+			req.body.password
+		);
+		const token = await user.generateAuthToken();
+		return res.send({ user, token });
+	} catch (error) {
+		res.status(400).send(error);
+	}
+};
+
 const createUser = async (req, res) => {
 	try {
 		let user = new User(req.body);
@@ -41,12 +54,12 @@ const updateUser = async (req, res) => {
 	if (!isValidOperation) return res.status(400).send("Invalid Updates");
 
 	try {
-		let user = await User.findByIdAndUpdate(req.params.id, req.body, {
-			new: true,
-			runValidators: true,
-		});
+		let user = await User.findById(req.params.id);
 		if (!user)
 			return res.status(404).send("Unable to update a user with that ID");
+
+		updates.forEach((update) => (user[update] = req.body[update]));
+		user = await user.save();
 		return res.status(200).send(user);
 	} catch (error) {
 		res.status(400).send(error);
@@ -70,4 +83,5 @@ module.exports = {
 	createUser,
 	updateUser,
 	deleteUser,
+	loginUser,
 };

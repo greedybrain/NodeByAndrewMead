@@ -4,18 +4,23 @@ const express = require("express");
 const app = express();
 
 //! Custom Modules
-// Startup / Set configurations
+// startup / set configurations
 require("dotenv").config();
 require("./db/db-setup");
 
+//! Custom vars
+const chalk = require("chalk");
+const error = chalk.bold.redBright.inverse;
+const success = chalk.bold.greenBright.inverse;
+
 //! Middleware definition
-// pars incoming JSON to object
-app.use(express.json()); 
+// parse incoming JSON to object
+app.use(express.json());
 
 //! Mounting routers
-const userRouter = require("./routes/user-routes");
-const taskRouter = require("./routes/task-routes");
-// Routers
+const userRouter = require("./routers/user-routes");
+const taskRouter = require("./routers/task-routes");
+// routers
 app.use("/users", userRouter);
 app.use("/tasks", taskRouter);
 
@@ -24,6 +29,23 @@ const PORT = process.env.PORT || 5000;
 const { log } = console;
 
 app.listen(PORT, (err) =>
-	err ? log(err) : log(`Listening on PORT > ${PORT}`)
+	err ? log(error(err)) : log(success(`Listening on PORT > ${PORT}`))
 );
- 
+
+const jwt = require("jsonwebtoken");
+
+// myFunc = () => {
+// 	const token = jwt.sign({ _id: "abc123" }, "mysecret", {
+// 		expiresIn: "0 seconds",
+// 	});
+// 	console.log(token);
+
+// 	try {
+// 		const payload = jwt.verify(token, "mysecret");
+// 		console.log(payload);
+// 	} catch (error) {
+// 		console.log(error.message);
+// 	}
+// };
+
+// myFunc();

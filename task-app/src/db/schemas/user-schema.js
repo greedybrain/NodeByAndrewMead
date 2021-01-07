@@ -14,6 +14,7 @@ const UserSchema = new Schema({
 		required: true,
 		trim: true,
 		lowercase: true,
+		unique: true,
 		validate(value) {
 			if (!validator.isEmail(value)) throw Error("Invalid email");
 		},
@@ -37,6 +38,7 @@ const UserSchema = new Schema({
 			if (value < 0) throw Error("Please enter a valid age greater than 0");
 		},
 	},
+	tokens: [{ token: { type: String, required: true } }],
 });
 
 //! Exporting

@@ -1,13 +1,18 @@
 //! NPM Modules
 const mongoose = require("mongoose");
 
-//! Custom Vars
-const MONGO_URI_USER = process.env.MONGO_URI_USER;
-const MONGO_URI_SECRET = process.env.MONGO_URI_SECRET;
-const CONNECTION_URL = `mongodb+srv://${MONGO_URI_USER}:${MONGO_URI_SECRET}@node-go.skajs.mongodb.net/task-app-api?retryWrites=true&w=majority`;
+//! Custom vars
+const chalk = require("chalk");
+const error = chalk.bold.redBright.inverse;
+const success = chalk.bold.greenBright.inverse;
+const { log } = console;
 
 //! DB definition
 const startDB = async () => {
+	const MONGO_URI_USER = process.env.MONGO_URI_USER;
+	const MONGO_URI_SECRET = process.env.MONGO_URI_SECRET;
+	const CONNECTION_URL = `mongodb+srv://${MONGO_URI_USER}:${MONGO_URI_SECRET}@node-go.skajs.mongodb.net/task-app-api?retryWrites=true&w=majority`;
+
 	try {
 		await mongoose.connect(CONNECTION_URL, {
 			useNewUrlParser: true,
@@ -15,9 +20,9 @@ const startDB = async () => {
 			useCreateIndex: true,
 			useFindAndModify: false,
 		});
-		console.log("Connected to database");
-	} catch (error) {
-		console.log(error);
+		log(success("Connected to database"));
+	} catch (err) {
+		log(error(err));
 	}
 };
 startDB();
