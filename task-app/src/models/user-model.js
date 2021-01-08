@@ -5,6 +5,23 @@ const jwt = require("jsonwebtoken");
 
 //! Custom Modules
 const UserSchema = require("../db/schemas/user-schema");
+const Task = require("./task-model");
+
+UserSchema.methods.toJSON = function () {
+	const user = this;
+	const userObject = user.toObject();
+
+	delete userObject.password;
+	delete userObject.tokens;
+
+	return userObject;
+};
+
+UserSchema.virtual("tasks", {
+	ref: "Task",
+	localField: "_id",
+	foreignField: "user",
+});
 
 UserSchema.methods.generateAuthToken = async function () {
 	let user = this;
@@ -13,17 +30,21 @@ UserSchema.methods.generateAuthToken = async function () {
 
 	try {
 		await user.save();
-		return token;
 	} catch (error) {
 		console.log(error.message);
 	}
+	return token;
 };
 
 UserSchema.statics.findByCredentials = async (email, password) => {
-	const user = await User.findOne({ email });
-	const isMatch = await bcrypt.compare(password, user.password);
-	if (!user || !isMatch) throw new Error("Check email or password");
-	return user;
+	try {
+		const user = await User.findOne({ email });
+		const isMatch = await bcrypt.compare(password, user.password);
+		if (!user || !isMatch) throw new Error("Check email or password");
+		return user;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 // Hash plain text password
@@ -32,6 +53,17 @@ UserSchema.pre("save", async function (next) {
 
 	if (user.isModified("password"))
 		user.password = await bcrypt.hash(user.password, 8);
+
+	next();
+});
+
+UserSchema.pre("remove", async function (next) {
+	const user = this;
+	try {
+		await Task.deleteMany({ user: user._id });
+	} catch (error) {
+		console.log(error);
+	}
 
 	next();
 });

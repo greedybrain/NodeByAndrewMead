@@ -3,7 +3,7 @@ const Task = require("../models/task-model");
 
 const getTasks = async (req, res, next) => {
 	try {
-		const tasks = await Task.find();
+		const tasks = await Task.find({ user: req.user._id });
 		return res.status(200).send(tasks);
 	} catch (error) {
 		res.status(500).send(error);
@@ -12,9 +12,8 @@ const getTasks = async (req, res, next) => {
 
 const getTask = async (req, res, next) => {
 	try {
-		const task = await Task.findById(req.params.id);
-		if (!task)
-			return res.status(404).send("Unable to find a task with that ID");
+		const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
+		if (!task) return res.status(404).send();
 		return res.status(200).send(task);
 	} catch (error) {
 		res.status(500).send(error);
@@ -22,10 +21,14 @@ const getTask = async (req, res, next) => {
 };
 
 const createTask = async (req, res, next) => {
-	let task = new Task(req.body);
+	const task = new Task({
+		...req.body,
+		user: req.user._id,
+	});
 
 	try {
-		task = await task.save();
+		await task.populate("user").execPopulate();
+		await task.save();
 		return res.status(201).send(task);
 	} catch (error) {
 		res.status(400).send(error);
@@ -42,12 +45,11 @@ const updateTask = async (req, res, next) => {
 	if (!isValidOperation) return res.status(400).send("Invalid Updates");
 
 	try {
-		let task = await Task.findById(req.params.id);
-		if (!task)
-			return res.status(404).send("Unable to update a task with that ID");
+		const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
+		if (!task) return res.status(404).send();
 
 		updates.forEach((update) => (task[update] = req.body[update]));
-		task = await task.save();
+		await task.save();
 		return res.status(200).send(task);
 	} catch (error) {
 		res.status(400).send(error);
@@ -56,12 +58,23 @@ const updateTask = async (req, res, next) => {
 
 const deleteTask = async (req, res, next) => {
 	try {
-		const task = await Task.findByIdAndDelete(req.params.id);
-		if (!task)
-			return res.status(404).send("Unable to delete a task with the ID");
+		const task = await Task.findOneAndRemove({
+			_id: req.params.id,
+			user: req.user._id,
+		});
+		if (!task) return res.status(404).send();
 		return res.status(200).send(task);
 	} catch (error) {
 		res.status(400).send(error);
+	}
+};
+
+const deleteAllTasks = async (req, res, next) => {
+	req.user.tasks = [];
+	try {
+		await req.user.save();
+	} catch (error) {
+		res.send(400).send(error);
 	}
 };
 
@@ -71,4 +84,5 @@ module.exports = {
 	createTask,
 	updateTask,
 	deleteTask,
+	deleteAllTasks,
 };

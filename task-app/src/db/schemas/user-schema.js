@@ -44,5 +44,6 @@ const UserSchema = new Schema({
 	tokens: [TokenSchema],
 });
 
+
 //! Exporting
 module.exports = UserSchema;

@@ -8,7 +8,7 @@ require("dotenv").config(); // startup / set configurations
 require("./db/db-setup"); // startup / set configurations
 const userRouter = require("./routers/user-routes");
 const taskRouter = require("./routers/task-routes");
-
+ 
 //! Custom vars
 const chalk = require("chalk");
 const error = chalk.bold.redBright.inverse;
@@ -20,7 +20,11 @@ const success = chalk.bold.greenBright.inverse;
 // 	next();
 // });
 
-app.use((req, res, next) => res.status(503).send("We are currently performing site maintenance. Please try back soon"))
+// app.use((req, res, next) =>
+// 	res
+// 		.status(503)
+// 		.send("We are currently performing site maintenance. Please try back soon")
+// );
 
 // parse incoming JSON to object
 app.use(express.json());
@@ -36,21 +40,3 @@ const { log } = console;
 app.listen(PORT, (err) =>
 	err ? log(error(err)) : log(success(`Listening on PORT > ${PORT}`))
 );
-
-const jwt = require("jsonwebtoken");
-
-// myFunc = () => {
-// 	const token = jwt.sign({ _id: "abc123" }, "mysecret", {
-// 		expiresIn: "0 seconds",
-// 	});
-// 	console.log(token);
-
-// 	try {
-// 		const payload = jwt.verify(token, "mysecret");
-// 		console.log(payload);
-// 	} catch (error) {
-// 		console.log(error.message);
-// 	}
-// };
-
-// myFunc();
