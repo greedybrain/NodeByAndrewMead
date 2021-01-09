@@ -3,7 +3,7 @@ const { Schema } = require("mongoose");
 const validator = require("validator");
 
 //! Custom Modules
-const TokenSchema = require("./token-schema");
+const TokenSchema = require("./token_schema");
 
 //! Schema definition
 const UserSchema = new Schema({

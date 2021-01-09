@@ -10,7 +10,7 @@ const {
 	updateTask,
 	deleteTask,
 	deleteAllTasks
-} = require("../helpers/task-helper");
+} = require("../controllers/tasks_controller");
 const ifAuthorized = require("../middleware/auth");
 
 //! Routes definition

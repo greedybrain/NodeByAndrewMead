@@ -11,7 +11,7 @@ const {
 	loginUser,
 	logoutUser,
 	logoutOutAllSessions,
-} = require("../helpers/user-helper");
+} = require("../controllers/users_controller");
 const ifAuthorized = require("../middleware/auth");
 
 //! Routes definition

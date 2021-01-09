@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 //! Custom Modules
-const User = require("../models/user-model");
+const User = require("../models/user_model");
 
 const ifAuthorized = async (req, res, next) => {
 	try {
@@ -24,3 +24,4 @@ const ifAuthorized = async (req, res, next) => {
 };
 
 module.exports = ifAuthorized;
+

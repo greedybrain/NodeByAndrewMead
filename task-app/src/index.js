@@ -5,9 +5,9 @@ const app = express();
 
 //! Custom Modules
 require("dotenv").config(); // startup / set configurations
-require("./db/db-setup"); // startup / set configurations
-const userRouter = require("./routers/user-routes");
-const taskRouter = require("./routers/task-routes");
+require("./db/db_setup"); // startup / set configurations
+const userRouter = require("./routers/user_routes");
+const taskRouter = require("./routers/task_routes");
  
 //! Custom vars
 const chalk = require("chalk");

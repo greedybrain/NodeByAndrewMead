@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 //! Custom Modules
-const UserSchema = require("../db/schemas/user-schema");
-const Task = require("./task-model");
+const UserSchema = require("../db/schemas/user_schema");
+const Task = require("./task_model");
 
 UserSchema.methods.toJSON = function () {
 	const user = this;
